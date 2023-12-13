@@ -1,37 +1,87 @@
 #include "shell.h"
 
 /**
-* print_prompt - Display the shell prompt
+* _strcpy - copies a string
+* @dest: the destination
+* @src: the source
+*
+* Return: pointer to destination
 */
-void print_prompt(void)
+char *_strcpy(char *dest, char *src)
 {
-printf("#cisfun$ ");
+int i = 0;
+
+if (dest == src || src == 0)
+return (dest);
+while (src[i])
+{
+dest[i] = src[i];
+i++;
+}
+dest[i] = 0;
+return (dest);
 }
 
 /**
-* execute_command - Execute the given command
-* @command: The command to be executed
+* _strdup - duplicates a string
+* @str: the string to duplicate
+*
+* Return: pointer to the duplicated string
 */
-void execute_command(const char *command)
+char *_strdup(const char *str)
 {
-pid_t pid = fork();
+int length = 0;
+char *ret;
 
-if (pid == -1)
-{
-perror("fork");
-exit(EXIT_FAILURE);
+if (str == NULL)
+return (NULL);
+while (*str++)
+length++;
+ret = malloc(sizeof(char) * (length + 1));
+if (!ret)
+return (NULL);
+for (length++; length--;)
+ret[length] = *--str;
+return (ret);
 }
-else if (pid == 0)
+
+/**
+*_puts - prints an input string
+*@str: the string to be printed
+*
+* Return: Nothing
+*/
+void _puts(char *str)
 {
-if (execlp(command, command, (char *)NULL) == -1)
+int i = 0;
+
+if (!str)
+return;
+while (str[i] != '\0')
 {
-perror("execlp");
-exit(EXIT_FAILURE);
+_putchar(str[i]);
+i++;
 }
 }
-else
+
+/**
+* _putchar - writes the character c to stdout
+* @c: The character to print
+*
+* Return: On success 1.
+* On error, -1 is returned, and errno is set appropriately.
+*/
+int _putchar(char c)
 {
-int status;
-waitpid(pid, &status, 0);
+static int i;
+static char buf[WRITE_BUF_SIZE];
+
+if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+{
+write(1, buf, i);
+i = 0;
 }
+if (c != BUF_FLUSH)
+buf[i++] = c;
+return (1);
 }
