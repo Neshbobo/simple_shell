@@ -5,7 +5,7 @@
 */
 void print_prompt(void)
 {
-printf("$ ");
+printf("#cisfun$ ");
 }
 
 /**
